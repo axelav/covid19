@@ -1,6 +1,6 @@
 // import React, { useState, useEffect, useCallback } from 'react'
 import React from 'react'
-import states from 'us-state-codes'
+import { getStateNameByStateCode } from 'us-state-codes'
 import max from 'lodash.max'
 import { useCurrentStatesRecords } from '../services/api'
 
@@ -44,7 +44,7 @@ const StatesTotals = () => {
             {totals.map(x => (
               <tr className="striped--light-gray" key={x.state}>
                 <td className="pv2 ph3 fw6">
-                  {states.getStateNameByStateCode(x.state) || x.state}
+                  {getStateNameByStateCode(x.state) || x.state}
                 </td>
                 <td
                   className={

@@ -65,7 +65,6 @@ const defaultChartOpts = {
         this.series.name
       }</b>: ${this.y.toLocaleString()}`
     },
-    // shared: true,
     style: {
       fontSize: '0.875rem',
       color: 'black'
