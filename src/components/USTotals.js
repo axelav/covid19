@@ -23,7 +23,7 @@ const USTotals = () => {
 
   return (
     <div className="USTotals mb4">
-      <h2 className="f3 mv4">Current Totals</h2>
+      <h2 className="f3 mv4">Current US Totals</h2>
       {errorMessage ? (
         <p className="tr mt0 mb3">{errorMessage}</p>
       ) : !data ? (

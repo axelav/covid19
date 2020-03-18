@@ -46,8 +46,19 @@ const useDailyStatesRecords = () => {
   }
 }
 
+const useCurrentStatesRecords = () => {
+  const { data, error } = useFetch('https://covidtracking.com/api/states')
+
+  return {
+    data: getData(data),
+    errorMessage: getErrorMessage(error, data),
+    error
+  }
+}
+
 export {
   useDailyUSRecords,
   useCurrentUSRecords,
-  useDailyStatesRecords
+  useDailyStatesRecords,
+  useCurrentStatesRecords
 }

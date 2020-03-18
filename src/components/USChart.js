@@ -25,7 +25,7 @@ const USChart = () => {
     },
     series: [
       {
-        name: 'Cases',
+        name: 'Postive Cases',
         data: records.map((x, i) => {
           const date = x.date
             .toString()

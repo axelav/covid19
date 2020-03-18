@@ -1,5 +1,6 @@
 import React from 'react'
 import USTotals from './components/USTotals'
+import StatesTotals from './components/StatesTotals'
 import USChart from './components/USChart'
 import StatesChart from './components/StatesChart'
 
@@ -10,11 +11,13 @@ const App = () => (
         <h1 className="f2 mt0 mb4 tc">COVID-19 in the United States</h1>
         {/* <hr className="near-white" /> */}
       </header>
+      <hr className="near-white" />
       <section>
+        <USChart />
         <USTotals />
         <hr className="near-white" />
-        <USChart />
         <StatesChart />
+        <StatesTotals />
       </section>
       <footer>
         <p className="tc mt0 mb3">
