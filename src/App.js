@@ -5,7 +5,7 @@ import USChart from './components/USChart'
 import StatesChart from './components/StatesChart'
 
 const App = () => (
-  <div className="App sans-serif f6 mw8 center">
+  <div className="App black-80 sans-serif f6 mw8 center">
     <div className="mh2 mv4">
       <header className="App-header">
         <h1 className="f2 mt0 mb4 tc">COVID-19 in the United States</h1>

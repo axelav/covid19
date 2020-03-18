@@ -1,30 +1,41 @@
-// import React, { useState, useEffect, useCallback } from 'react'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { getStateNameByStateCode } from 'us-state-codes'
 import max from 'lodash.max'
+import sortBy from 'sort-by'
+import cx from 'classnames'
 import { useCurrentStatesRecords } from '../services/api'
+
+const getTotals = data => (data ? data : [])
 
 const StatesTotals = () => {
   const { data, errorMessage } = useCurrentStatesRecords()
-  // const [totals, setTotals] = useState({})
+  const [totals, setTotals] = useState([])
+  const [sort, setSort] = useState('state')
 
-  // const memoizedGetTotals = useCallback(() => {
-  //   const getTotals = data => (data ? data[0] : totals)
+  const sanitizedSort = sort.replace('-', '')
 
-  //   getTotals(data)
-  // }, [data, totals])
+  const handleSort = sortKey => {
+    let nextSort
+    if (sanitizedSort === sortKey && sort.substr(0, 1) === '-') {
+      nextSort = sortKey
+    } else {
+      nextSort = `-${sortKey}`
+    }
 
-  // useEffect(() => {
-  //   if (!totals.positive) {
-  //     console.log(totals.positive)
-  //     setTotals(memoizedGetTotals(data))
-  //   }
-  // }, [data, totals, memoizedGetTotals])
+    setTotals([...data].sort(sortBy(nextSort)))
+    setSort(nextSort)
+  }
 
-  const totals = data ? data : null
+  useEffect(() => {
+    if (!totals.length) {
+      setTotals(getTotals(data))
+    }
+  }, [data, totals.length])
 
   const maxPositive = totals && max(totals.map(x => x.positive))
   const maxDeath = totals && max(totals.map(x => x.death))
+
+  const arrow = <span>{sort === sanitizedSort ? '↓' : '↑'}</span>
 
   return (
     <div className="StatesTotals mb4">
@@ -36,27 +47,48 @@ const StatesTotals = () => {
       ) : (
         <table className="collapse w-100 ba br2 b--black-10 pv2 ph3 f5">
           <tbody>
-            <tr className="striped--light-gray tl f6 fw6 ttu">
-              <th className="pv2 ph3">State</th>
-              <th className="pv2 ph3">Positive</th>
-              <th className="pv2 ph3">Deaths</th>
+            <tr className="striped--light-gray tl f6 ttu">
+              <th
+                className={cx('pv2 ph3 pointer', {
+                  fw5: sanitizedSort !== 'state'
+                })}
+                onClick={() => handleSort('state')}
+              >
+                State {sanitizedSort === 'state' && arrow}
+              </th>
+              <th
+                className={cx('pv2 ph3 pointer', {
+                  fw5: sanitizedSort !== 'positive'
+                })}
+                onClick={() => handleSort('positive')}
+              >
+                Positive {sanitizedSort === 'positive' && arrow}
+              </th>
+              <th
+                className={cx('pv2 ph3 pointer', {
+                  fw5: sanitizedSort !== 'death'
+                })}
+                onClick={() => handleSort('death')}
+              >
+                Deaths {sanitizedSort === 'death' && arrow}
+              </th>
             </tr>
             {totals.map(x => (
               <tr className="striped--light-gray" key={x.state}>
-                <td className="pv2 ph3 fw6">
+                <td className="pv2 ph3">
                   {getStateNameByStateCode(x.state) || x.state}
                 </td>
                 <td
-                  className={
-                    x.positive === maxPositive ? 'pv2 ph3 fw6 red' : 'pv2 ph3'
-                  }
+                  className={cx('pv2 ph3', {
+                    'fw7 red': x.positive === maxPositive
+                  })}
                 >
                   {x.positive.toLocaleString()}
                 </td>
                 <td
-                  className={
-                    x.death === maxDeath ? 'pv2 ph3 fw6 red' : 'pv2 ph3'
-                  }
+                  className={cx('pv2 ph3', {
+                    'fw7 red': x.death === maxDeath
+                  })}
                 >
                   {x.death}
                 </td>
