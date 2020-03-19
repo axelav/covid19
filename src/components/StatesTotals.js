@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { getStateNameByStateCode } from 'us-state-codes'
 import max from 'lodash.max'
 import sortBy from 'sort-by'
+import { DateTime } from 'luxon'
 import cx from 'classnames'
 import { useCurrentStatesRecords } from '../services/api'
+
+const dateFormat = 'M/d HH:mm'
 
 const getTotals = data => (data ? data : [])
 
@@ -72,6 +75,14 @@ const StatesTotals = () => {
               >
                 Deaths {sanitizedSort === 'death' && arrow}
               </th>
+              <th
+                className={cx('pv2 ph3 pointer', {
+                  fw5: sanitizedSort !== 'lastUpdateEt'
+                })}
+                onClick={() => handleSort('lastUpdateEt')}
+              >
+                Last Updated (EDT) {sanitizedSort === 'lastUpdateEt' && arrow}
+              </th>
             </tr>
             {totals.map(x => (
               <tr className="striped--light-gray" key={x.state}>
@@ -91,6 +102,12 @@ const StatesTotals = () => {
                   })}
                 >
                   {x.death}
+                </td>
+                <td className="pv2 ph3">
+                  {DateTime.fromFormat(
+                    x.lastUpdateEt,
+                    dateFormat
+                  ).toLocaleString(DateTime.DATETIME_SHORT)}
                 </td>
               </tr>
             ))}

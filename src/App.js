@@ -13,8 +13,8 @@ const App = () => (
       </header>
       <hr className="near-white" />
       <section>
-        <USChart />
         <USTotals />
+        <USChart />
         <hr className="near-white" />
         <StatesChart />
         <StatesTotals />

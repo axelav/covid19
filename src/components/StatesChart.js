@@ -91,7 +91,7 @@ const StatesChart = () => {
 
   return (
     <div className="StatesChart mb4">
-      <h2 className="f3 mv4">State Daily</h2>
+      <h2 className="f3 mv4">States Daily</h2>
       {errorMessage ? (
         <p className="tr mt0 mb3">{errorMessage}</p>
       ) : !data ? (
