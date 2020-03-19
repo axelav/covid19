@@ -98,7 +98,7 @@ const StatesChart = () => {
         <p className="tr mt0 mb3 tc">Loading records...</p>
       ) : (
         <div>
-          <h3 className="f4 mv4">Cases</h3>
+          <h3 className="f4 mv4">Positive Cases</h3>
           <HighchartsReact
             highcharts={Highcharts}
             options={casesChartOptions}
