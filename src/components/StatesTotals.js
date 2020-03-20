@@ -48,71 +48,73 @@ const StatesTotals = () => {
       ) : !data ? (
         <p className="tr mt0 mb3 tc">Loading totals...</p>
       ) : (
-        <table className="collapse w-100 ba br2 b--black-10 pv2 ph3 f5">
-          <tbody>
-            <tr className="striped--light-gray tl f6 ttu">
-              <th
-                className={cx('pv2 ph3 pointer', {
-                  fw5: sanitizedSort !== 'state'
-                })}
-                onClick={() => handleSort('state')}
-              >
-                State {sanitizedSort === 'state' && arrow}
-              </th>
-              <th
-                className={cx('pv2 ph3 pointer', {
-                  fw5: sanitizedSort !== 'positive'
-                })}
-                onClick={() => handleSort('positive')}
-              >
-                Positive {sanitizedSort === 'positive' && arrow}
-              </th>
-              <th
-                className={cx('pv2 ph3 pointer', {
-                  fw5: sanitizedSort !== 'death'
-                })}
-                onClick={() => handleSort('death')}
-              >
-                Deaths {sanitizedSort === 'death' && arrow}
-              </th>
-              <th
-                className={cx('pv2 ph3 pointer', {
-                  fw5: sanitizedSort !== 'lastUpdateEt'
-                })}
-                onClick={() => handleSort('lastUpdateEt')}
-              >
-                Last Updated (EDT) {sanitizedSort === 'lastUpdateEt' && arrow}
-              </th>
-            </tr>
-            {totals.map(x => (
-              <tr className="striped--light-gray" key={x.state}>
-                <td className="pv2 ph3">
-                  {getStateNameByStateCode(x.state) || x.state}
-                </td>
-                <td
-                  className={cx('pv2 ph3', {
-                    'fw7 red': x.positive === maxPositive
+        <div className="overflow-x-auto">
+          <table className="collapse dt--fixed ba br2 b--black-10 pv2 ph3 f5">
+            <tbody>
+              <tr className="striped--light-gray tl f6 ttu">
+                <th
+                  className={cx('pv2 ph3 pointer w4', {
+                    fw5: sanitizedSort !== 'state'
                   })}
+                  onClick={() => handleSort('state')}
                 >
-                  {x.positive.toLocaleString()}
-                </td>
-                <td
-                  className={cx('pv2 ph3', {
-                    'fw7 red': x.death === maxDeath
+                  State {sanitizedSort === 'state' && arrow}
+                </th>
+                <th
+                  className={cx('pv2 ph3 pointer w4', {
+                    fw5: sanitizedSort !== 'positive'
                   })}
+                  onClick={() => handleSort('positive')}
                 >
-                  {x.death}
-                </td>
-                <td className="pv2 ph3">
-                  {DateTime.fromFormat(
-                    x.lastUpdateEt,
-                    dateFormat
-                  ).toLocaleString(DateTime.DATETIME_SHORT)}
-                </td>
+                  Positive {sanitizedSort === 'positive' && arrow}
+                </th>
+                <th
+                  className={cx('pv2 ph3 pointer w4', {
+                    fw5: sanitizedSort !== 'death'
+                  })}
+                  onClick={() => handleSort('death')}
+                >
+                  Deaths {sanitizedSort === 'death' && arrow}
+                </th>
+                <th
+                  className={cx('pv2 ph3 pointer w5', {
+                    fw5: sanitizedSort !== 'lastUpdateEt'
+                  })}
+                  onClick={() => handleSort('lastUpdateEt')}
+                >
+                  Last Updated (EDT) {sanitizedSort === 'lastUpdateEt' && arrow}
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+              {totals.map(x => (
+                <tr className="striped--light-gray" key={x.state}>
+                  <td className="pv2 ph3 w4">
+                    {getStateNameByStateCode(x.state) || x.state}
+                  </td>
+                  <td
+                    className={cx('pv2 ph3 w4', {
+                      'fw7 red': x.positive === maxPositive
+                    })}
+                  >
+                    {x.positive.toLocaleString()}
+                  </td>
+                  <td
+                    className={cx('pv2 ph3 w4', {
+                      'fw7 red': x.death === maxDeath
+                    })}
+                  >
+                    {x.death}
+                  </td>
+                  <td className="pv2 ph3 w5">
+                    {DateTime.fromFormat(
+                      x.lastUpdateEt,
+                      dateFormat
+                    ).toLocaleString(DateTime.DATETIME_SHORT)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   )
