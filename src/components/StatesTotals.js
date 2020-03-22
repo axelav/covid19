@@ -10,6 +10,22 @@ const dateFormat = 'M/d HH:mm'
 
 const getTotals = data => (data ? data : [])
 
+const getStateName = code => {
+  const name = getStateNameByStateCode(code)
+
+  if (name) {
+    return name
+  } else if (code === 'VI') {
+    return 'US Virgin Islands'
+  } else if (code === 'GU') {
+    return 'Guam'
+  } else if (code === 'AS') {
+    return 'American Samoa'
+  } else if (code === 'MP') {
+    return 'Northern Mariana Islands'
+  }
+}
+
 const StatesTotals = () => {
   const { data, errorMessage } = useCurrentStatesRecords()
   const [totals, setTotals] = useState([])
@@ -53,7 +69,7 @@ const StatesTotals = () => {
             <tbody>
               <tr className="striped--light-gray tl f6 ttu">
                 <th
-                  className={cx('pv2 ph3 pointer w4', {
+                  className={cx('pv2 ph3 pointer w5', {
                     fw5: sanitizedSort !== 'state'
                   })}
                   onClick={() => handleSort('state')}
@@ -77,6 +93,14 @@ const StatesTotals = () => {
                   Deaths {sanitizedSort === 'death' && arrow}
                 </th>
                 <th
+                  className={cx('pv2 ph3 pointer w4', {
+                    fw5: sanitizedSort !== 'total'
+                  })}
+                  onClick={() => handleSort('total')}
+                >
+                  Total Tested {sanitizedSort === 'total' && arrow}
+                </th>
+                <th
                   className={cx('pv2 ph3 pointer w5', {
                     fw5: sanitizedSort !== 'lastUpdateEt'
                   })}
@@ -88,21 +112,24 @@ const StatesTotals = () => {
               {totals.map(x => (
                 <tr className="striped--light-gray" key={x.state}>
                   <td className="pv2 ph3 w4">
-                    {getStateNameByStateCode(x.state) || x.state}
+                    {getStateName(x.state) || x.state}
                   </td>
                   <td
                     className={cx('pv2 ph3 w4', {
                       'fw7 red': x.positive === maxPositive
                     })}
                   >
-                    {x.positive.toLocaleString()}
+                    {x.positive ? x.positive.toLocaleString() : '--'}
                   </td>
                   <td
                     className={cx('pv2 ph3 w4', {
                       'fw7 red': x.death === maxDeath
                     })}
                   >
-                    {x.death}
+                    {x.death ? x.death.toLocaleString() : '--'}
+                  </td>
+                  <td className="pv2 ph3 w4">
+                    {x.total ? x.total.toLocaleString() : '--'}
                   </td>
                   <td className="pv2 ph3 w5">
                     {DateTime.fromFormat(

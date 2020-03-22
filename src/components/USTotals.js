@@ -28,6 +28,8 @@ const USTotals = () => {
         <p className="tr mt0 mb3">{errorMessage}</p>
       ) : !data ? (
         <p className="tr mt0 mb3 tc">Loading totals...</p>
+      ) : data.length === 0 ? (
+        <p className="tr mt0 mb3 tc">No data!</p>
       ) : (
         <div>
           <div className="f4 flex items-center mb2">
