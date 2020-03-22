@@ -98,7 +98,7 @@ const StatesTotals = () => {
                   })}
                   onClick={() => handleSort('total')}
                 >
-                  Total Tested {sanitizedSort === 'total' && arrow}
+                  Tested {sanitizedSort === 'total' && arrow}
                 </th>
                 <th
                   className={cx('pv2 ph3 pointer w5', {
