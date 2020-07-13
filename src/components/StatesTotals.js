@@ -6,11 +6,9 @@ import { DateTime } from 'luxon'
 import cx from 'classnames'
 import { useCurrentStatesRecords } from '../services/api'
 
-const dateFormat = 'M/d HH:mm'
+const getTotals = (data) => (data ? data : [])
 
-const getTotals = data => (data ? data : [])
-
-const getStateName = code => {
+const getStateName = (code) => {
   const name = getStateNameByStateCode(code)
 
   if (name) {
@@ -33,7 +31,7 @@ const StatesTotals = () => {
 
   const sanitizedSort = sort.replace('-', '')
 
-  const handleSort = sortKey => {
+  const handleSort = (sortKey) => {
     let nextSort
     if (sanitizedSort === sortKey && sort.substr(0, 1) === '-') {
       nextSort = sortKey
@@ -51,8 +49,8 @@ const StatesTotals = () => {
     }
   }, [data, totals.length])
 
-  const maxPositive = totals && max(totals.map(x => x.positive))
-  const maxDeath = totals && max(totals.map(x => x.death))
+  const maxPositive = totals && max(totals.map((x) => x.positive))
+  const maxDeath = totals && max(totals.map((x) => x.death))
 
   const arrow = <span>{sort === sanitizedSort ? '↓' : '↑'}</span>
 
@@ -70,7 +68,7 @@ const StatesTotals = () => {
               <tr className="striped--light-gray tl f6 ttu">
                 <th
                   className={cx('pv2 ph3 pointer w5', {
-                    fw5: sanitizedSort !== 'state'
+                    fw5: sanitizedSort !== 'state',
                   })}
                   onClick={() => handleSort('state')}
                 >
@@ -78,7 +76,7 @@ const StatesTotals = () => {
                 </th>
                 <th
                   className={cx('pv2 ph3 pointer w4', {
-                    fw5: sanitizedSort !== 'positive'
+                    fw5: sanitizedSort !== 'positive',
                   })}
                   onClick={() => handleSort('positive')}
                 >
@@ -86,7 +84,7 @@ const StatesTotals = () => {
                 </th>
                 <th
                   className={cx('pv2 ph3 pointer w4', {
-                    fw5: sanitizedSort !== 'death'
+                    fw5: sanitizedSort !== 'death',
                   })}
                   onClick={() => handleSort('death')}
                 >
@@ -94,7 +92,7 @@ const StatesTotals = () => {
                 </th>
                 <th
                   className={cx('pv2 ph3 pointer w4', {
-                    fw5: sanitizedSort !== 'total'
+                    fw5: sanitizedSort !== 'total',
                   })}
                   onClick={() => handleSort('total')}
                 >
@@ -102,28 +100,28 @@ const StatesTotals = () => {
                 </th>
                 <th
                   className={cx('pv2 ph3 pointer w5', {
-                    fw5: sanitizedSort !== 'lastUpdateEt'
+                    fw5: sanitizedSort !== 'dateModified',
                   })}
-                  onClick={() => handleSort('lastUpdateEt')}
+                  onClick={() => handleSort('dateModified')}
                 >
-                  Last Updated (EDT) {sanitizedSort === 'lastUpdateEt' && arrow}
+                  Last Updated (EDT) {sanitizedSort === 'dateModified' && arrow}
                 </th>
               </tr>
-              {totals.map(x => (
+              {totals.map((x) => (
                 <tr className="striped--light-gray" key={x.state}>
                   <td className="pv2 ph3 w4">
                     {getStateName(x.state) || x.state}
                   </td>
                   <td
                     className={cx('pv2 ph3 w4', {
-                      'fw7 red': x.positive === maxPositive
+                      'fw7 red': x.positive === maxPositive,
                     })}
                   >
                     {x.positive ? x.positive.toLocaleString() : '--'}
                   </td>
                   <td
                     className={cx('pv2 ph3 w4', {
-                      'fw7 red': x.death === maxDeath
+                      'fw7 red': x.death === maxDeath,
                     })}
                   >
                     {x.death ? x.death.toLocaleString() : '--'}
@@ -132,10 +130,9 @@ const StatesTotals = () => {
                     {x.total ? x.total.toLocaleString() : '--'}
                   </td>
                   <td className="pv2 ph3 w5">
-                    {DateTime.fromFormat(
-                      x.lastUpdateEt,
-                      dateFormat
-                    ).toLocaleString(DateTime.DATETIME_SHORT)}
+                    {DateTime.fromISO(x.dateModified).toLocaleString(
+                      DateTime.DATETIME_SHORT
+                    )}
                   </td>
                 </tr>
               ))}

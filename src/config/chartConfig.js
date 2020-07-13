@@ -22,7 +22,10 @@ const defaultChartOpts = {
       type: 'line'
     },
     line: {
-      animation: false
+      animation: false,
+      marker: {
+        enabled: false
+      }
     }
   },
   title: {
